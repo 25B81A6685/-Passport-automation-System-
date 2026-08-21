@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passport Automation System</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background: #eef2f5; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 25px; }
+        header { text-align: center; border-bottom: 3px solid #003366; padding-bottom: 15px; margin-bottom: 20px; }
+        header h1 { margin: 0; color: #003366; font-size: 26px; }
+        header p { margin: 5px 0 0; color: #666; font-size: 14px; }
+        
+        .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #ddd; }
+        .tab-btn { background: #e9ecef; border: none; padding: 10px 20px; font-weight: bold; color: #555; cursor: pointer; border-radius: 5px 5px 0 0; }
+        .tab-btn.active { background: #003366; color: white; }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        fieldset { border: 1px solid #ccc; border-radius: 6px; padding: 15px 20px; margin-bottom: 20px; }
+        legend { font-weight: bold; color: #003366; padding: 0 8px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .full-width { grid-column: span 2; }
+
+        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #444; }
+        input, select, textarea { width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #003366; box-shadow: 0 0 4px rgba(0,51,102,0.2); }
+        
+        .actions { text-align: right; margin-top: 20px; }
+        .btn { padding: 10px 25px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .btn-submit { background: #003366; color: white; }
+        .btn-submit:hover { background: #002244; }
+        .btn-reset { background: #6c757d; color: white; margin-right: 10px; }
+        
+        .status-box { background: #e7f3fe; border-left: 6px solid #2196F3; padding: 15px; margin-top: 15px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Passport Automation System</h1>
+        <p>Government of India - Passport Seva Portal</p>
+    </header>
+
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('apply')">New Application</button>
+        <button class="tab-btn" onclick="switchTab('status')">Track Application</button>
+        <button class="tab-btn" onclick="switchTab('appointment')">Book Appointment</button>
+    </div>
+
+    <!-- TAB 1: APPLICATION FORM -->
+    <div id="apply" class="tab-content active">
+        <form action="#" method="POST" enctype="multipart/form-data">
+            <fieldset>
+                <legend>1. Service Required</legend>
+                <div class="grid">
+                    <div>
+                        <label for="appType">Applying For:</label>
+                        <select id="appType" required>
+                            <option value="">-- Select --</option>
+                            <option value="fresh">Fresh Passport</option>
+                            <option value="reissue">Re-issue of Passport</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="typeOfApp">Type of Application:</label>
+                        <select id="typeOfApp" required>
+                            <option value="normal">Normal</option>
+                            <option value="tatkaal">Tatkaal (Urgent)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="booklet">Booklet Type:</label>
+                        <select id="booklet" required>
+                            <option value="36">36 Pages</option>
+                            <option value="60">60 Pages</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="validity">Validity Required:</label>
+                        <select id="validity" required>
+                            <option value="10">10 Years</option>
+                            <option value="minor">Up to 18 Years (Minors)</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>2. Personal Details</legend>
+                <div class="grid">
+                    <div>
+                        <label for="fname">Given Name (First Name):</label>
+                        <input type="text" id="fname" required>
+                    </div>
+                    <div>
+                        <label for="lname">Surname:</label>
+                        <input type="text" id="lname" required>
+                    </div>
+                    <div>
+                        <label for="dob">Date of Birth:</label>
+                        <input type="date" id="dob" required>
+                    </div>
+                    <div>
+                        <label for="gender">Gender:</label>
+                        <select id="gender" required>
+                            <option value="">-- Select --</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="aadhaar">Aadhaar Number:</label>
+                        <input type="text" id="aadhaar" pattern="[0-9]{12}" placeholder="12-digit Aadhaar">
+                    </div>
+                    <div>
+                        <label for="marital">Marital Status:</label>
+                        <select id="marital" required>
+                            <option value="single">Single</option>
+                            <option value="married">Married</option>
+                            <option value="divorced">Divorced</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>3. Address & Contact</legend>
+                <div class="grid">
+                    <div>
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div>
+                        <label for="mobile">Mobile Number:</label>
+                        <input type="tel" id="mobile" required>
+                    </div>
+                    <div class="full-width">
+                        <label for="address">Residential Address:</label>
+                        <textarea id="address" rows="2" required></textarea>
+                    </div>
+                    <div>
+                        <label for="city">City/Town:</label>
+                        <input type="text" id="city" required>
+                    </div>
+                    <div>
+                        <label for="pincode">Pincode:</label>
+                        <input type="text" id="pincode" required>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>4. Upload Documents</legend>
+                <div class="grid">
+                    <div>
+                        <label for="photo">Upload Photo (JPG/PNG):</label>
+                        <input type="file" id="photo" accept="image/*" required>
+                    </div>
+                    <div>
+                        <label for="proof">Upload Address Proof (PDF):</label>
+                        <input type="file" id="proof" accept=".pdf" required>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="actions">
+                <button type="reset" class="btn btn-reset">Reset</button>
+                <button type="submit" class="btn btn-submit">Submit Application</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- TAB 2: TRACK STATUS -->
+    <div id="status" class="tab-content">
+        <fieldset>
+            <legend>Track Status</legend>
+            <div class="grid">
+                <div>
+                    <label for="fileNum">Application File Number:</label>
+                    <input type="text" id="fileNum" placeholder="e.g. HY1078965432123">
+                </div>
+                <div>
+                    <label for="trackDob">Date of Birth:</label>
+                    <input type="date" id="trackDob">
+                </div>
+            </div>
+            <div class="actions">
+                <button type="button" class="btn btn-submit" onclick="showStatus()">Track Status</button>
+            </div>
+            <div id="statusResult" class="status-box" style="display:none;">
+                <strong>Status:</strong> Under Police Verification at Local Station.
+            </div>
+        </fieldset>
+    </div>
+
+    <!-- TAB 3: BOOK APPOINTMENT -->
+    <div id="appointment" class="tab-content">
+        <fieldset>
+            <legend>Schedule Passport Seva Kendra (PSK) Visit</legend>
+            <div class="grid">
+                <div>
+                    <label for="pskLocation">Select Passport Office (PSK):</label>
+                    <select id="pskLocation">
+                        <option value="">-- Select Office --</option>
+                        <option value="psk1">PSK Ameerpet, Hyderabad</option>
+                        <option value="psk2">PSK Begumpet, Hyderabad</option>
+                        <option value="psk3">PSK Tolichowki, Hyderabad</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="appDate">Select Date:</label>
+                    <input type="date" id="appDate">
+                </div>
+            </div>
+            <div class="actions">
+                <button type="button" class="btn btn-submit" onclick="alert('Appointment Scheduled Successfully!')">Book Appointment</button>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+<script>
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    function showStatus() {
+        document.getElementById('statusResult').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
